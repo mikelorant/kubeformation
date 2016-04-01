@@ -1,12 +1,9 @@
 module Kubeformation
-  class Userdata
+  class Userdata < Common
     ROLE = %w( master node )
 
-    def initialize(options)
-      @options = options
-    end
-
     def generate
+      @logger.info 'Generating user data...'
       kube_env
       user_data
       cleanup
@@ -15,6 +12,8 @@ module Kubeformation
     private
 
     def kube_env
+      @logger.info 'Extracting yaml files...'
+
       ENV['SERVER_BINARY_TAR_URL']=''
       ENV['SERVER_BINARY_TAR_HASH']=''
       ENV['SALT_TAR_URL']=''
@@ -32,6 +31,7 @@ module Kubeformation
     end
 
     def user_data
+      @logger.info 'Transforming user data...'
       ROLE.each do |role|
         @role = role
 

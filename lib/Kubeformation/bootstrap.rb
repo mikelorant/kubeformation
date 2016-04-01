@@ -1,10 +1,7 @@
 module Kubeformation
-  class Bootstrap
-    def initialize(options)
-      @options = options
-    end
-
+  class Bootstrap < Common
     def generate
+      @logger.info 'Generating bootstrap...'
       ENV['KUBE_TEMP']=@options[:destination]
 
       util = "source #{@options[:source]}/cluster/aws/util.sh"
@@ -13,5 +10,3 @@ module Kubeformation
     end
   end
 end
-
-
