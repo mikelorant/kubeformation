@@ -1,28 +1,57 @@
 # Kubeformation
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/Kubeformation`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Kubeformation will transform Kubernetes AWS user data into individual files for injecting into CloudFormation stacks.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'Kubeformation'
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install Kubeformation
+git clone https://github.com/mikelorant/kubeformation.git
+cd kubeformation
+bundle
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Basic usage.
+
+```
+$ bundle exec exe/kubeformation help
+Kubeformation commands:
+  kubeformation generate [key=value ...]  # Generate options
+  kubeformation help [COMMAND]            # Describe available commands or one specific command
+  kubeformation version                   # Print the version and exit.
+```
+
+Generate options.
+
+```
+$ bundle exec exe/kubeformation help generate
+Usage:
+  kubeformation generate [key=value ...]
+
+Options:
+  -s, [--source=SOURCE]            # Kubernetes source files.
+                                   # Default: /home/username/kubernetes
+  -d, [--destination=DESTINATION]  # Destination output.
+                                   # Default: /home/username/kubeformation/output
+```
+
+Example output.
+
+```
+$ bundle exec exe/kubeformation generate
+I, [2016-04-01T15:26:04.550046 #14241]  INFO -- : Generating bootstrap...
+I, [2016-04-01T15:26:04.662197 #14241]  INFO -- : Generating user data...
+I, [2016-04-01T15:26:04.662290 #14241]  INFO -- : Extracting yaml files...
+I, [2016-04-01T15:26:05.775265 #14241]  INFO -- : Transforming user data...
+```
+
+Output results.
+
+```
+$ ls output
+bootstrap-script	master-user-data	node-user-data
+```
 
 ## Development
 
@@ -38,4 +67,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
