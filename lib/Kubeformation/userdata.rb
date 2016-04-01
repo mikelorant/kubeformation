@@ -43,10 +43,14 @@ module Kubeformation
     end
 
     def user_data_block
-      block_start = @file.index{ |e| e =~ /write-#{@role}-env/ } # Search for position of write-{role}-env
-      block_end = @file.index{ |e| e =~ /#{@role}-user-data/ }   # Search for position of {role}-user-data
-      block = @file[(block_start + 4)..(block_end - 1)]          # Remove top 4 lines and bottom line
-      block.map { |line| line.strip }                            # Strip whitespaces from beginning and end
+      block_start = @file.index { |e| e =~ /write-#{@role}-env/ }          # Search for position of write-{role}-env
+      block_end = @file.index { |e| e =~ /#{@role}-user-data/ }            # Search for position of {role}-user-data
+      block = @file[block_start..block_end]
+
+      block_start = block.index { |e| e =~ /#!/ }                          # Search for position of hashbang
+      block_end = block.rindex { |e| e =~ /\/etc\/kubernetes\/bootstrap/ } # Search for last position of /etc/kubernetes/bootstrap
+
+      block[block_start..block_end].map { |line| line.strip }              # Strip whitespaces from beginning and end
     end
 
     def transform
