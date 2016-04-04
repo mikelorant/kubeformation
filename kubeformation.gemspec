@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'Kubeformation/version'
+require 'kubeformation/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "Kubeformation"
+  spec.name          = "kubeformation"
   spec.version       = Kubeformation::VERSION
   spec.authors       = ["Michael Lorant"]
   spec.email         = ["michael.lorant@fairfaxmedia.com.au"]
