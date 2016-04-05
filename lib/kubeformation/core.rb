@@ -6,10 +6,17 @@ module Kubeformation
       FileUtils.mkdir_p @options[:destination]
     end
 
-    def generate
+    def bootstrap
       Kubeformation::Bootstrap.new(@options).generate
       Kubeformation::Userdata.new(@options).generate
+
+    end
+
+    def certificates
       Kubeformation::Certificates.new(@options).generate
+    end
+
+    def tokens
       Kubeformation::Tokens.new(@options).generate
     end
   end

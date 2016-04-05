@@ -54,16 +54,22 @@ module Kubeformation
     end
 
     def transform
-      user_data_block.collect do |line|
-        case line
-        when /^cat/
-          inject_yaml
-        when /^echo/
-          sanitise_command line
-        else
-          line
+      user_data_block
+        .insert(
+          1,
+          'test -f tokens.sh && source tokens.sh',
+          'test -f certicates.sh && source certificates.sh',
+        )
+        .collect do |line|
+          case line
+          when /^cat/
+            inject_yaml
+          when /^echo/
+            sanitise_command line
+          else
+            line
+          end
         end
-      end
     end
 
     def inject_yaml

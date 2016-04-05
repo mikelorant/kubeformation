@@ -24,7 +24,7 @@ module Kubeformation
           'gen-kube-bearertoken',
           "source #{@options[:source]}/cluster/aws/util.sh",
           'get-tokens',
-          "( #{echo_tokens} ) > #{@options[:destination]}/tokens.yml"
+          "( #{echo_tokens} ) > #{@options[:destination]}/tokens.sh"
         ].join(';')
 
         %x( bash -c '#{command}' )
@@ -38,7 +38,7 @@ module Kubeformation
     end
 
     def format_token token
-      "echo #{token}: $#{token}"
+      "echo declare -rx #{token}=$#{token}"
     end
   end
 end

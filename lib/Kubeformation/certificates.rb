@@ -27,6 +27,7 @@ module Kubeformation
         ].join(';')
 
         %x( bash -c '#{command}' )
+        %x( bash -c '( #{echo_certificates} ) > #{@options[:destination]}/certificates.sh' )
       end
     end
 
@@ -34,26 +35,25 @@ module Kubeformation
 
     def echo_files
       FILES.map do |file|
-        filename = file.downcase
-        suffix = determine_suffix filename
+        filename = convert_filename file
 
-        "echo $#{file} > #{@options[:destination]}/#{filename}.#{suffix}"
+        "echo $#{file} | base64 -D > #{@options[:destination]}/#{filename}"
       end.join(';')
     end
 
-    def determine_suffix string
-      case string
-      when /^ca/
-        'ca'
-      when /_cert_/
-        'cert'
-      when /_key_/
-        'key'
-      else
-        fail('Invalid suffix detected.')
-      end
+    def echo_certificates
+      FILES.map do |file|
+        filename = convert_filename file
+
+        "echo declare -rx #{file.gsub(/_BASE64/, '')}=$(cat #{@options[:destination]}/#{filename} | base64 )"
+      end.join(';')
+    end
+
+    def convert_filename filename
+      filename
+        .downcase             # lowercase
+        .gsub(/_base64/, '')  # remove _base64
+        .gsub(/_/, '.')       # replace underscore with fullstop
     end
   end
 end
-
-
