@@ -57,8 +57,7 @@ module Kubeformation
       user_data_block
         .insert(
           1,
-          'test -f tokens.sh && source tokens.sh',
-          'test -f certicates.sh && source certificates.sh',
+          'test -f /var/tmp/certicates.sh && source /var/tmp/certificates.sh',
         )
         .collect do |line|
           case line

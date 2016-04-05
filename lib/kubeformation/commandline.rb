@@ -32,6 +32,5 @@ module Kubeformation
     def tokens
       Kubeformation::Core.new(options).tokens
     end
-
   end
 end
