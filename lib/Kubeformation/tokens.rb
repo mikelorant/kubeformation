@@ -38,7 +38,7 @@ module Kubeformation
     end
 
     def format_token token
-      "echo declare -rx #{token}=$#{token}"
+      "echo #{token}=$#{token}"
     end
   end
 end

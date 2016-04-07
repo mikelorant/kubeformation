@@ -37,7 +37,14 @@ module Kubeformation
       FILES.map do |file|
         filename = convert_filename file
 
-        "echo $#{file} | base64 -D > #{@options[:destination]}/#{filename}"
+        case RUBY_PLATFORM
+        when /darwin/
+          base64_option = '-D'
+        else
+          base64_option = '-d'
+        end
+
+        "echo $#{file} | base64 #{base64_option} > #{@options[:destination]}/#{filename}"
       end.join(';')
     end
 
