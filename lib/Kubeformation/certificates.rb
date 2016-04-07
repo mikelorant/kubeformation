@@ -52,7 +52,7 @@ module Kubeformation
       FILES.map do |file|
         filename = convert_filename file
 
-        "echo declare -rx #{file.gsub(/_BASE64/, '')}=$(cat #{@options[:destination]}/#{filename} | base64 )"
+        "echo declare -rx #{file.gsub(/_BASE64/, '')}='$(cat #{@options[:destination]}/#{filename} | base64 )'"
       end.join(';')
     end
 
