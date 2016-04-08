@@ -20,7 +20,7 @@ module Kubeformation
     end
 
     desc 'certificates [key=value ...]', 'Certificate options'
-    method_option :master_ip,                 default: '10.0.0.1',               type: :string,  aliases: '-i', desc: 'Master name.'
+    method_option :master_internal_ip,        default: '10.0.0.1',               type: :string,  aliases: '-i', desc: 'Master internal IP.'
     method_option :master_name,               default: 'kubernetes.example.org', type: :string,  aliases: '-m', desc: 'Master name.'
     method_option :service_cluster_ip_range,  default: '10.0.0.0/16',            type: :string,  aliases: '-c', desc: 'Service cluster IP range.'
     method_option :dns_domain,                default: 'cluster.local',          type: :string,  aliases: '-n', desc: 'DNS domain.'

@@ -1,3 +1,5 @@
+require 'base64'
+
 module Kubeformation
   class Certificates < Common
     FILES = %w(
@@ -22,11 +24,13 @@ module Kubeformation
 
         command = [
           "source #{@options[:source]}/cluster/common.sh",
-          "create-certs #{@options[:master_ip]}",
+          "create-certs #{@options[:master_internal_ip]}",
           echo_files
         ].join(';')
 
         %x( bash -c '#{command}' )
+
+
         %x( bash -c '( #{echo_certificates} ) > #{@options[:destination]}/certificates.sh' )
       end
     end
@@ -52,7 +56,12 @@ module Kubeformation
       FILES.map do |file|
         filename = convert_filename file
 
-        "echo declare -rx #{file.gsub(/_BASE64/, '')}='$(cat #{@options[:destination]}/#{filename} | base64 )'"
+        contents = File.read "#{@options[:destination]}/#{filename}"
+        contents_base64 = Base64.strict_encode64 contents
+
+        variable = file.gsub(/_BASE64/, '')
+
+        "echo declare -rx #{variable}=#{contents_base64}"
       end.join(';')
     end
 
