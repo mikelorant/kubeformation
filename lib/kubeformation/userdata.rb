@@ -61,7 +61,7 @@ module Kubeformation
           '  source /var/tmp/certificates.sh',
           'fi'
         )
-        .collect do |line|
+        .collect { |line|
           case line
           when /^cat/
             inject_yaml
@@ -70,7 +70,10 @@ module Kubeformation
           else
             line
           end
-        end
+        }
+        .tap { |line|
+          line[-1] = "#{line[-1]} 2>&1 >>/var/log/kubernetes_bootstrap.log\n" # Add debug logging to bootstrap script
+        }
     end
 
     def inject_yaml
