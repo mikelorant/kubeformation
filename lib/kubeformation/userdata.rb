@@ -22,6 +22,10 @@ module Kubeformation
       ENV['KUBE_PASSWORD']=''
       ENV['KUBE_BEARER_TOKEN']=''
 
+      ENV['KUBE_MANIFESTS_TAR_URL']=''
+      ENV['MASTER_OS_DISTRIBUTION']=''
+      ENV['NODE_OS_DISTRIBUTION']=''
+
       util = "source #{@options[:source]}/cluster/aws/util.sh"
       common = "source #{@options[:source]}/cluster/common.sh"
       source = "#{util} ; #{common}"
